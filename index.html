@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Страница товара</title>
+    <style>
+        /* Основные стили */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #007bff;
+            padding: 10px 20px;
+            color: #fff;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+        }
+        .cart-icon img {
+            width: 32px;
+            height: 32px;
+        }
+        .cart-count {
+            position: absolute;
+            top: -5px;
+            right: -10px;
+            background-color: #e74c3c;
+            color: #fff;
+            border-radius: 50%;
+            font-size: 14px;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .products {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 20px;
+        }
+        .product-card {
+            display: flex;
+            flex-direction: column;
+            width: 300px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .product-slider {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+        }
+        .product-images {
+            display: flex;
+            transition: transform 0.3s ease-in-out;
+        }
+        .product-image {
+            width: 100%;
+            height: auto;
+        }
+        .product-thumbnails {
+            display: flex;
+            justify-content: center;
+            margin: 10px 0;
+        }
+        .thumbnail {
+            width: 40px;
+            height: 40px;
+            margin: 0 5px;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+        .thumbnail.active {
+            border-color: #007bff;
+        }
+        .product-details {
+            padding: 16px;
+        }
+        .product-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 0 0 10px;
+            color: #333;
+        }
+        .product-description {
+            font-size: 14px;
+            color: #666;
+            margin: 0 0 10px;
+        }
+        .product-price-block {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px;
+            border-top: 1px solid #ddd;
+        }
+        .product-price {
+            font-size: 18px;
+            font-weight: bold;
+            color: #e74c3c;
+        }
+        .add-to-cart {
+            background-color: #007bff;
+            color: #fff;
+            padding: 8px 12px;
+            font-size: 14px;
+            font-weight: bold;
+            text-transform: uppercase;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .add-to-cart:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Магазин товаров</h1>
+    <div class="cart-icon" onclick="goToCartPage()">
+        <img src="https://via.placeholder.com/32" alt="Корзина">
+        <span class="cart-count" id="cart-count">0</span>
+    </div>
+</header>
+<div class="products">
+    <!-- Карточка товара 1 -->
+    <div class="product-card">
+        <div class="product-slider">
+            <div class="product-images" id="product-images-1">
+                <img src="https://via.placeholder.com/600x400" alt="Изображение товара 1" class="product-image">
+                <img src="https://via.placeholder.com/600x400/ff0000" alt="Изображение товара 2" class="product-image">
+                <img src="https://via.placeholder.com/600x400/00ff00" alt="Изображение товара 3" class="product-image">
+            </div>
+        </div>
+        <div class="product-details">
+            <h1 class="product-title"><a href="product.html">Samsung Galaxy S24 5G</a></h1>
+            <p class="product-description">128GB, Onyx Black</p>
+        </div>
+        <div class="product-price-block">
+            <span class="product-price">₸499,990</span>
+            <button class="add-to-cart" onclick="addToCart('Samsung Galaxy S24 5G', 499990)">Добавить в корзину</button>
+        </div>
+    </div>
+
+    <!-- Карточка товара 2 -->
+    <div class="product-card">
+        <div class="product-slider">
+            <div class="product-images" id="product-images-2">
+                <img src="https://via.placeholder.com/600x400" alt="Изображение товара 1" class="product-image">
+                <img src="https://via.placeholder.com/600x400/ff0000" alt="Изображение товара 2" class="product-image">
+                <img src="https://via.placeholder.com/600x400/00ff00" alt="Изображение товара 3" class="product-image">
+            </div>
+        </div>
+        <div class="product-details">
+            <h1 class="product-title"><a href="product1.html">iPhone 15 Pro Max</a></h1>
+            <p class="product-description">256GB, Space Black</p>
+        </div>
+        <div class="product-price-block">
+            <span class="product-price">₸799,990</span>
+            <button class="add-to-cart" onclick="addToCart('iPhone 15 Pro Max', 799990)">Добавить в корзину</button>
+        </div>
+    </div>
+</div>
+
+<script src="script.js"></script>
+<script>
+    const cartKey = 'shoppingCart';
+
+    function addToCart(productName, productPrice) {
+        const cart = JSON.parse(localStorage.getItem(cartKey)) || [];
+        cart.push({ name: productName, price: productPrice });
+        localStorage.setItem(cartKey, JSON.stringify(cart));
+        updateCartCount();
+    }
+
+    function updateCartCount() {
+        const cart = JSON.parse(localStorage.getItem(cartKey)) || [];
+        document.getElementById('cart-count').textContent = cart.length;
+    }
+
+    function goToCartPage() {
+        window.location.href = 'cart.html';
+    }
+
+    // Инициализация количества товаров в корзине
+    updateCartCount();
+</script>
+</body>
+</html>

@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #007bff;
+            padding: 10px 20px;
+            color: #fff;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+        }
+        .cart-icon img {
+            width: 30px;
+            height: 30px;
+        }
+        .cart-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: #e74c3c;
+            color: #fff;
+            border-radius: 50%;
+            padding: 5px 8px;
+            font-size: 12px;
+        }
+        .product-card {
+            display: flex;
+            flex-direction: column;
+            width: 300px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin: 20px;
+        }
+        .product-slider {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+        }
+        .product-images {
+            display: flex;
+            transition: transform 0.3s ease-in-out;
+        }
+        .product-image {
+            width: 100%;
+            height: auto;
+        }
+        .product-thumbnails {
+            display: flex;
+            justify-content: center;
+            margin: 10px 0;
+        }
+        .thumbnail {
+            width: 40px;
+            height: 40px;
+            margin: 0 5px;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+        .thumbnail.active {
+            border-color: #007bff;
+        }
+        .product-details {
+            padding: 16px;
+        }
+        .product-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 0 0 10px;
+            color: #333;
+        }
+        .product-description {
+            font-size: 14px;
+            color: #666;
+            margin: 0 0 10px;
+        }
+        .product-price-block {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px;
+            border-top: 1px solid #ddd;
+        }
+        .product-price {
+            font-size: 18px;
+            font-weight: bold;
+            color: #e74c3c;
+        }
+        .add-to-cart {
+            background-color: #007bff;
+            color: #fff;
+            padding: 8px 12px;
+            font-size: 14px;
+            font-weight: bold;
+            text-transform: uppercase;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .add-to-cart:hover {
+            background-color: #0056b3;
+        }
+        /* Новый стиль для разделов */
+        .product-info {
+            padding: 20px;
+            background-color: #fff;
+            margin-top: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .product-info h2 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        .reviews {
+            margin-top: 20px;
+        }
+        .review {
+            background-color: #f1f1f1;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+        .review p {
+            margin: 5px 0;
+        }
+        .reviewer-name {
+            font-weight: bold;
+        }
+        /* Формы для добавления отзывов */
+        .review-form {
+            display: flex;
+            flex-direction: column;
+            margin-top: 20px;
+        }
+        .review-form input, .review-form textarea {
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .review-form button {
+            background-color: #28a745;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .review-form button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Product Store</h1>
+    <div class="cart-icon" onclick="window.location.href='cart.html'">
+        <img src="https://via.placeholder.com/30x30" alt="Cart Icon">
+        <span class="cart-count" id="cart-count">0</span>
+    </div>
+</header>
+
+<div class="products">
+    <!-- Карточка товара -->
+    <div class="product-card">
+        <div class="product-slider">
+            <div class="product-images" id="product-images-1">
+                <img src="https://via.placeholder.com/600x400" alt="Product Image 1" class="product-image">
+                <img src="https://via.placeholder.com/600x400/ff0000" alt="Product Image 2" class="product-image">
+                <img src="https://via.placeholder.com/600x400/00ff00" alt="Product Image 3" class="product-image">
+            </div>
+        </div>
+        <div class="product-thumbnails">
+            <img src="https://via.placeholder.com/600x400" alt="Thumbnail 1" class="thumbnail" onclick="changeSlide(0, 1)">
+            <img src="https://via.placeholder.com/600x400/ff0000" alt="Thumbnail 2" class="thumbnail" onclick="changeSlide(1, 1)">
+            <img src="https://via.placeholder.com/600x400/00ff00" alt="Thumbnail 3" class="thumbnail" onclick="changeSlide(2, 1)">
+        </div>
+        <div class="product-details">
+            <h1 class="product-title">iPhone 15 Pro Max</h1>
+            <p class="product-description">256GB, Space Black</p>
+        </div>
+        <div class="product-price-block">
+            <span class="product-price">₸799,990</span>
+            <button class="add-to-cart" onclick="addToCart('iPhone 15 Pro Max', 799990)">Add to Cart</button>
+        </div>
+    </div>
+
+    <!-- Новая секция: Информация о товаре -->
+    <div class="product-info">
+        <h2>Описание товара</h2>
+        <p>Samsung Galaxy S24 5G — это смартфон нового поколения с улучшенными характеристиками, поддерживающий 5G и оснащённый мощным процессором. Это идеальный выбор для людей, ценящих высокую производительность и стильный дизайн.</p>
+        
+        <h2>Характеристики</h2>
+        <ul>
+            <li>Процессор: Exynos 2100</li>
+            <li>Камера: 108MP основная, 12MP фронтальная</li>
+            <li>Оперативная память: 12GB</li>
+            <li>Память: 128GB</li>
+        </ul>
+    </div>
+
+    <!-- Новый раздел: Отзывы -->
+    <div class="reviews">
+        <h2>Отзывы</h2>
+        <div id="reviews-list">
+            <!-- Отзывы будут загружаться здесь -->
+        </div>
+        <div class="review-form">
+            <h3>Оставьте отзыв:</h3>
+            <input type="text" id="reviewer-name" placeholder="Ваше имя">
+            <textarea id="review-text" placeholder="Ваш отзыв" rows="4"></textarea>
+            <button onclick="submitReview()">Отправить отзыв</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const cartKey = 'shoppingCart';
+    const reviewsKey = 'productReviews';
+
+    function addToCart(productName, productPrice) {
+        const cart = JSON.parse(localStorage.getItem(cartKey)) || [];
+        cart.push({ name: productName, price: productPrice });
+        localStorage.setItem(cartKey, JSON.stringify(cart));
+        updateCartCount();
+    }
+
+    function updateCartCount() {
+        const cart = JSON.parse(localStorage.getItem(cartKey)) || [];
+        document.getElementById('cart-count').textContent = cart.length;
+    }
+
+    function changeSlide(index, productId) {
+        const slider = document.getElementById(`product-images-${productId}`);
+        slider.style.transform = `translateX(-${index * 100}%)`;
+    }
+
+    function submitReview() {
+        const reviewerName = document.getElementById('reviewer-name').value;
+        const reviewText = document.getElementById('review-text').value;
+
+        if (reviewerName && reviewText) {
+            const reviews = JSON.parse(localStorage.getItem(reviewsKey)) || [];
+            reviews.push({ name: reviewerName, text: reviewText });
+            localStorage.setItem(reviewsKey, JSON.stringify(reviews));
+            loadReviews(); // обновляем список отзывов
+            document.getElementById('reviewer-name').value = '';
+            document.getElementById('review-text').value = '';
+        } else {
+            alert("Пожалуйста, заполните все поля.");
+        }
+    }
+
+    function loadReviews() {
+        const reviews = JSON.parse(localStorage.getItem(reviewsKey)) || [];
+        const reviewsList = document.getElementById('reviews-list');
+
+        reviewsList.innerHTML = ''; // очищаем текущий список
+
+        reviews.forEach((review, index) => {
+            const reviewDiv = document.createElement('div');
+            reviewDiv.classList.add('review');
+            reviewDiv.innerHTML = `
+                <p class="reviewer-name">${review.name}</p>
+                <p>${review.text}</p>
+                <button onclick="removeReview(${index})">Удалить</button>
+            `;
+            reviewsList.appendChild(reviewDiv);
+        });
+    }
+
+    function removeReview(index) {
+        const reviews = JSON.parse(localStorage.getItem(reviewsKey)) || [];
+        reviews.splice(index, 1); // удаляем отзыв по индексу
+        localStorage.setItem(reviewsKey, JSON.stringify(reviews)); // сохраняем обновленный список
+        loadReviews(); // обновляем отображение отзывов
+    }
+
+    // Загружаем количество товаров в корзине и отзывы при загрузке страницы
+    window.onload = function() {
+        updateCartCount();
+        loadReviews();
+    }
+
+    
+</script>
+</body>
+</html>

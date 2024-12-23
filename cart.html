@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #007bff;
+            padding: 10px 20px;
+            color: #fff;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .cart-items {
+            list-style: none;
+            padding: 20px;
+        }
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .cart-total {
+            font-size: 18px;
+            font-weight: bold;
+            text-align: right;
+            padding: 20px;
+        }
+        button {
+            background-color: #e74c3c;
+            color: #fff;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Shopping Cart</h1>
+    <button onclick="goBack()">Back to Products</button>
+</header>
+<ul class="cart-items" id="cart-items"></ul>
+<div class="cart-total" id="cart-total">Total: ₸0</div>
+
+<script>
+    const cartKey = 'shoppingCart';
+
+    function loadCart() {
+        const cart = JSON.parse(localStorage.getItem(cartKey)) || [];
+        const cartItems = document.getElementById('cart-items');
+        const cartTotal = document.getElementById('cart-total');
+
+        cartItems.innerHTML = '';
+        let total = 0;
+
+        cart.forEach((item, index) => {
+            const listItem = document.createElement('li');
+            listItem.className = 'cart-item';
+
+            const itemText = document.createElement('span');
+            itemText.textContent = `${item.name} - ₸${item.price.toLocaleString()}`;
+
+            const removeButton = document.createElement('button');
+            removeButton.textContent = 'Remove';
+            removeButton.onclick = () => removeFromCart(index);
+
+            listItem.appendChild(itemText);
+            listItem.appendChild(removeButton);
+            cartItems.appendChild(listItem);
+
+            total += item.price;
+        });
+
+        cartTotal.textContent = `Total: ₸${total.toLocaleString()}`;
+    }
+
+    function removeFromCart(index) {
+        const cart = JSON.parse(localStorage.getItem(cartKey)) || [];
+        cart.splice(index, 1);
+        localStorage.setItem(cartKey, JSON.stringify(cart));
+        loadCart();
+    }
+
+    function goBack() {
+        window.location.href = 'index.html';
+    }
+
+    // Инициализация корзины
+    loadCart();
+</script>
+<script src="script.js"></script>
+</body>
+</html>
